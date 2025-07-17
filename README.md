@@ -3,7 +3,13 @@
 
 # 🔐 @devflow-modules/jwt-auth
 
-Módulo de autenticação JWT seguro, modular e reutilizável para aplicações Node.js. Inclui suporte completo a **access token**, **refresh token**, **hash e verificação de senhas**, **middleware de proteção** e **testes com cobertura**.
+Módulo de autenticação JWT seguro, modular e reutilizável para aplicações Node.js. Inclui suporte completo a:
+
+- ✅ **Access Token**
+- 🔁 **Refresh Token**
+- 🔑 **Hash e verificação de senhas**
+- 🛡️ **Middleware de proteção de rotas**
+- 🧪 **Testes com cobertura**
 
 ---
 
@@ -36,18 +42,19 @@ JWT_REFRESH_EXPIRES_IN=7d
 
 ## ✅ Funcionalidades
 
-### 🔐 JWT - Access Token
+### 🔐 Geração e Verificação de Access Token
 
 ```js
 const { signToken, verifyToken } = require('@devflow-modules/jwt-auth');
 
 const token = signToken({ id: '123', role: 'admin' });
-const payload = verifyToken(token); // { id: '123', role: 'admin', iat, exp }
+const payload = verifyToken(token); 
+// { id: '123', role: 'admin', iat, exp }
 ```
 
 ---
 
-### 🔁 JWT - Refresh Token
+### 🔁 Geração e Verificação de Refresh Token
 
 ```js
 const { signRefreshToken, verifyRefreshToken } = require('@devflow-modules/jwt-auth');
@@ -58,7 +65,7 @@ const payload = verifyRefreshToken(refresh);
 
 ---
 
-### 🔑 Senhas
+### 🔑 Hash e Verificação de Senhas
 
 ```js
 const { hashPassword, comparePassword } = require('@devflow-modules/jwt-auth');
@@ -69,9 +76,9 @@ const isValid = await comparePassword('minhasenha', hash); // true ou false
 
 ---
 
-### 🛡️ Middleware: `protectRoute`
+### 🛡️ Middleware: `protectRoute` (Express)
 
-Protege rotas Express contra acesso sem token válido.
+Protege rotas de acesso não autenticado.
 
 ```js
 const express = require('express');
@@ -130,7 +137,10 @@ tests/
 
 ## 📌 Roadmap
 
-_a fazer_
+- [ ] Suporte a múltiplos algoritmos JWT  
+- [ ] Rotas públicas configuráveis  
+- [ ] Exemplo de uso com login/logout completo
+
 
 ---
 
