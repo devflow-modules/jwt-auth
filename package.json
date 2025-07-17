@@ -1,10 +1,21 @@
 {
-  "name": "@devflow-modules/authenticator",
+  "name": "@devflow-modules/jwt-auth",
+  "version": "1.0.0",
+  "description": "Módulo de autenticação JWT seguro, modular e reutilizável para aplicações Node.js.",
   "main": "./src/index.js",
+  "type": "commonjs",
+  "files": ["src"],
+  "keywords": ["jwt", "auth", "token", "express", "authentication", "refresh-token", "middleware", "bcrypt", "modular"],
+  "author": "Gustavo Marques",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devflow-modules/jwt-auth.git"
+  },
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage --coverageReporters=text --coverageReporters=lcov",
-    "prepare": "husky"
+    "prepare": "husky install"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
