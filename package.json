@@ -3,7 +3,7 @@
   "main": "./src/index.js",
   "scripts": {
     "test": "jest",
-    "test:coverage": "jest --coverage",
+    "test:coverage": "jest --coverage --coverageReporters=text --coverageReporters=lcov",
     "prepare": "husky"
   },
   "dependencies": {

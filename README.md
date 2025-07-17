@@ -1,5 +1,6 @@
-
 ![CI](https://github.com/devflow-modules/jwt-auth/actions/workflows/ci.yml/badge.svg)
+[![codecov](https://codecov.io/gh/devflow-modules/jwt-auth/branch/main/graph/badge.svg)](https://codecov.io/gh/devflow-modules/jwt-auth)
+
 # 🔐 @devflow-modules/jwt-auth
 
 Módulo de autenticação JWT seguro, modular e reutilizável para aplicações Node.js. Inclui suporte completo a **access token**, **refresh token**, **hash e verificação de senhas**, **middleware de proteção** e **testes com cobertura**.

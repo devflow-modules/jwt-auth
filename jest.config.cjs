@@ -1,6 +1,7 @@
 module.exports = {
   testEnvironment: 'node',
   collectCoverage: true,
+  coverageReporters: ['lcov', 'text'],
   coverageThreshold: {
     global: {
       branches: 90,
