@@ -4,9 +4,8 @@
 
 # 🔐 @devflow-modules/jwt-auth
 
-Módulo de autenticação JWT seguro, modular e reutilizável para aplicações Node.js.
-
 Inclui suporte completo a:
+Módulo de autenticação JWT seguro, modular e reutilizável para aplicações Node.js. Inclui suporte completo a:
 
 - ✅ **Access Token**
 - 🔁 **Refresh Token**
