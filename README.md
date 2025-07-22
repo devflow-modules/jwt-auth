@@ -1,15 +1,19 @@
 ![CI](https://github.com/devflow-modules/jwt-auth/actions/workflows/ci.yml/badge.svg)
 [![codecov](https://codecov.io/gh/devflow-modules/jwt-auth/branch/main/graph/badge.svg)](https://codecov.io/gh/devflow-modules/jwt-auth)
+[![npm version](https://img.shields.io/npm/v/@devflow-modules/jwt-auth)](https://www.npmjs.com/package/@devflow-modules/jwt-auth)
 
 # 🔐 @devflow-modules/jwt-auth
 
-Módulo de autenticação JWT seguro, modular e reutilizável para aplicações Node.js. Inclui suporte completo a:
+Módulo de autenticação JWT seguro, modular e reutilizável para aplicações Node.js.
+
+Inclui suporte completo a:
 
 - ✅ **Access Token**
 - 🔁 **Refresh Token**
 - 🔑 **Hash e verificação de senhas**
 - 🛡️ **Middleware de proteção de rotas**
 - 🧪 **Testes com cobertura**
+- 🚫 **Zero dependência de banco de dados**
 
 ---
 
@@ -93,6 +97,35 @@ app.get('/private', protectRoute, (req, res) => {
 
 ---
 
+### 💻 Exemplo completo (Express)
+
+```js
+require('dotenv').config();
+const express = require('express');
+const {
+  signToken,
+  signRefreshToken,
+  protectRoute
+} = require('@devflow-modules/jwt-auth');
+
+const app = express();
+app.use(express.json());
+
+app.post('/login', (req, res) => {
+  const token = signToken({ id: 'user123' });
+  const refresh = signRefreshToken({ id: 'user123' });
+  res.json({ token, refresh });
+});
+
+app.get('/private', protectRoute, (req, res) => {
+  res.json({ user: req.user });
+});
+
+app.listen(3000, () => console.log('API rodando em http://localhost:3000'));
+```
+
+---
+
 ## 🧪 Testes
 
 Execute os testes com cobertura:
@@ -137,9 +170,15 @@ tests/
 
 ## 📌 Roadmap
 
-- [ ] Suporte a múltiplos algoritmos JWT  
-- [ ] Rotas públicas configuráveis  
-- [ ] Exemplo de uso com login/logout completo
+- [ ] Suporte a múltiplos algoritmos JWT (HS512, RS256)
+- [ ] Suporte a cookies HTTP-only
+- [ ] Middleware para roles e permissões
+- [ ] Changelog automatizado + GitHub Release
+- [ ] Exemplo completo com autenticação + refresh
+- [ ] Middleware opcional para rotas públicas
+- [ ] Compatibilidade com ESM (import/export)
+- [ ] Suporte a sessão baseada em token com blacklist
+- [ ] Integração com login social (Google, GitHub)
 
 
 ---
