@@ -1,7 +1,7 @@
 ---
 name: Solicitação de Funcionalidade
 about: Sugira uma nova feature para o módulo
-title: "[FEATURE] "
+title: '[FEATURE] '
 labels: enhancement
 ---
 
