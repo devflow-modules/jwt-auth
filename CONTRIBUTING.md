@@ -24,6 +24,7 @@ Antes de abrir um PR, certifique-se de que todos os testes estão passando:
 ```bash
 npm test
 ```
+
 A cobertura de testes é automaticamente validada pelo Codecov.
 
 ---
@@ -31,16 +32,19 @@ A cobertura de testes é automaticamente validada pelo Codecov.
 ## 🚀 Criando um Pull Request
 
 1. Crie uma branch descritiva:
+
 ```bash
 git checkout -b feat/nome-da-feature
 ```
 
 2. Faça os commits seguindo um padrão claro:
+
 ```bash
 git commit -m "feat: adiciona suporte a múltiplos algoritmos JWT"
 ```
 
 3. Envie sua branch:
+
 ```bash
 git push origin feat/nome-da-feature
 ```
