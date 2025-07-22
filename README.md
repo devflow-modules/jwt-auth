@@ -51,7 +51,7 @@ JWT_REFRESH_EXPIRES_IN=7d
 const { signToken, verifyToken } = require('@devflow-modules/jwt-auth');
 
 const token = signToken({ id: '123', role: 'admin' });
-const payload = verifyToken(token); 
+const payload = verifyToken(token);
 // { id: '123', role: 'admin', iat, exp }
 ```
 
@@ -101,11 +101,7 @@ app.get('/private', protectRoute, (req, res) => {
 ```js
 require('dotenv').config();
 const express = require('express');
-const {
-  signToken,
-  signRefreshToken,
-  protectRoute
-} = require('@devflow-modules/jwt-auth');
+const { signToken, signRefreshToken, protectRoute } = require('@devflow-modules/jwt-auth');
 
 const app = express();
 app.use(express.json());
@@ -178,7 +174,6 @@ tests/
 - [ ] Compatibilidade com ESM (import/export)
 - [ ] Suporte a sessão baseada em token com blacklist
 - [ ] Integração com login social (Google, GitHub)
-
 
 ---
 

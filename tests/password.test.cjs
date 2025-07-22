@@ -1,5 +1,5 @@
-const  { hashPassword } = require('../src/password/hashPassword');
-const  { comparePassword } = require('../src/password/comparePassword');
+const { hashPassword } = require('../src/password/hashPassword');
+const { comparePassword } = require('../src/password/comparePassword');
 
 describe('Hash de senha', () => {
   const senha = 'senhaSegura123';

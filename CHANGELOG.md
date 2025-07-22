@@ -1,32 +1,14 @@
-📆 Changelog
+# Changelog
 
-Todas as mudanças importantes neste projeto são documentadas aqui.
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-[v1.0.0] - 2025-07-17
+### [1.0.2](https://github.com/devflow-modules/jwt-auth/compare/v1.0.1...v1.0.2) (2025-07-22)
 
-✨ Adicionado
 
-Geração de access token com JWT (signToken)
+### Features
 
-Verificação de access token (verifyToken)
+* suporte a múltiplos algoritmos de assinatura ([8c159c0](https://github.com/devflow-modules/jwt-auth/commit/8c159c087eec5b6893cbe65d485223e30ed483e3))
 
-Geração e verificação de refresh token (signRefreshToken, verifyRefreshToken)
+# Changelog
 
-Hash seguro de senha com bcrypt (hashPassword)
-
-Comparação de senha (comparePassword)
-
-Middleware protectRoute para proteger rotas Express com JWT
-
-Suporte a configurações .env via dotenv
-
-Testes automatizados com Jest para todos os módulos
-
-Cobertura de testes 100% com npm run test:coverage
-
-Proteção de git push com Husky e gancho pre-push
-
-Estrutura modular (src/jwt, src/password, src/middleware, src/utils)
-
-README.md com exemplos claros e instruções completas de uso
-
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.

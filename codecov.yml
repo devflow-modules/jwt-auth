@@ -2,8 +2,8 @@ coverage:
   status:
     project:
       default:
-        target: 90%     # cobertura mínima esperada no projeto
-        threshold: 1%   # tolerância antes de marcar como falha
+        target: 90% # cobertura mínima esperada no projeto
+        threshold: 1% # tolerância antes de marcar como falha
     patch:
       default:
         target: 90%

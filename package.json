@@ -27,7 +27,14 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage --coverageReporters=text --coverageReporters=lcov",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "eslint . --ext .js,.cjs",
+    "format": "prettier --write .",
+    "release": "standard-version",
+    "release:patch": "standard-version --release-as patch",
+    "release:minor": "standard-version --release-as minor",
+    "release:major": "standard-version --release-as major",
+    "postrelease": "git push --follow-tags origin main && npm publish --access public"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -35,7 +42,16 @@
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
+    "eslint": "^9.31.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.3",
     "husky": "^9.1.7",
-    "jest": "^30.0.4"
-  }
+    "jest": "^30.0.4",
+    "prettier": "^3.6.2",
+    "standard-version": "^9.5.0"
+  },
+  "bugs": {
+    "url": "https://github.com/devflow-modules/jwt-auth/issues"
+  },
+  "homepage": "https://github.com/devflow-modules/jwt-auth#readme"
 }

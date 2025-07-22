@@ -13,7 +13,7 @@ function protectRoute(req, res, next) {
     const decoded = verifyToken(token);
     req.user = decoded;
     next();
-  } catch (err) {
+  } catch {
     return res.status(401).json({ message: 'Token inválido ou expirado.' });
   }
 }
