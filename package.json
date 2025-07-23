@@ -1,6 +1,6 @@
 {
   "name": "@devflow-modules/jwt-auth",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Módulo de autenticação JWT seguro, modular e reutilizável para aplicações Node.js.",
   "main": "./src/index.js",
   "type": "commonjs",
