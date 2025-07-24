@@ -35,7 +35,6 @@ jobs:
 
       - name: Push version bump commit and tags
         run: git push https://x-access-token:${{ secrets.TOKEN_GITHUB }}@github.com/${{ github.repository }} main --follow-tags
-        
       - name: Publish package to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
