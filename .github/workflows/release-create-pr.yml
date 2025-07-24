@@ -1,0 +1,52 @@
+name: Create Release Pull Request
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create_release_pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run standard-version (bump version and changelog)
+        run: npx standard-version
+
+      - name: Get new version tag
+        id: get_version
+        run: echo "##[set-output name=tag;]$(node -p \"require('./package.json').version\")"
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create release branch and push
+        env:
+          GITHUB_PAT: ${{ secrets.TOKEN_GITHUB }}
+          RELEASE_BRANCH: release/v${{ steps.get_version.outputs.tag }}
+        run: |
+          git checkout -b $RELEASE_BRANCH
+          git push origin $RELEASE_BRANCH
+
+      - name: Create Pull Request
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+        run: |
+          sudo apt-get install -y gh
+          echo "${GITHUB_TOKEN}" | gh auth login --with-token
+          gh pr create --title "Release v${{ steps.get_version.outputs.tag }}" --body "Release automática da versão ${{ steps.get_version.outputs.tag }}" --base main --head $RELEASE_BRANCH --reviewer gustavomarques00 --assignee gustavomarques00
