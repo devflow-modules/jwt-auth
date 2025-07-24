@@ -145,6 +145,26 @@ app.get('/private', protectRoute, (req, res) => {
 });
 ```
 
+### 🛡️ Middleware: `protectWithRoles` (Express)
+
+Protege rotas com base em roles (funções/permissões) do usuário autenticado.
+
+```js
+const express = require('express');
+const { protectWithRoles } = require('@devflow-modules/jwt-auth');
+
+const app = express();
+
+// Permite acesso apenas para usuários com role 'admin' ou 'editor'
+app.get('/admin', protectWithRoles(['admin', 'editor']), (req, res) => {
+  res.json({ message: 'Acesso permitido para administradores e editores.' });
+});
+
+// Permite acesso apenas para usuários com role 'user'
+app.get('/profile', protectWithRoles(['user']), (req, res) => {
+  res.json({ message: 'Acesso permitido para usuários.' });
+});
+```
 ---
 
 ### 💻 Exemplo completo (Express)
@@ -202,7 +222,9 @@ src/
 │   ├── hashPassword.cjs
 │   └── comparePassword.cjs
 ├── middleware/
-│   └── protectRoute.cjs
+│   ├── protectRoute.cjs
+│   └── protectWithRoles.cjs      # Novo middleware adicionado
+│   └── protectRouteFromCookie.cjs
 ├── utils/
 │   └── env.cjs
 ├── index.js
@@ -217,6 +239,7 @@ tests/
 │   └── verifyToken.errors.test.cjs
 ├── middleware/
 │   ├── middleware.test.cjs
+│   ├── protectWithRoles.test.cjs   # Testes do middleware de roles
 │   └── protectRouteFromCookie.test.cjs
 ├── password/
 │   └── password.test.cjs
