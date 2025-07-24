@@ -274,8 +274,8 @@ app.get('/private', protectRouteFromCookie, (req, res) => {
 
 - [X] Suporte a múltiplos algoritmos JWT (HS512, RS256)
 - [X] Suporte a cookies HTTP-only
-- [ ] Middleware para roles e permissões
-- [ ] Changelog automatizado + GitHub Release
+- [X] Middleware para roles e permissões
+- [X] Changelog automatizado + GitHub Release
 - [ ] Exemplo completo com autenticação + refresh
 - [ ] Middleware opcional para rotas públicas
 - [ ] Compatibilidade com ESM (import/export)
