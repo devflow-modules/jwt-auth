@@ -28,7 +28,7 @@ jobs:
 
       - name: Get new version tag
         id: get_version
-        run: echo "##[set-output name=tag;]$(node -p \"require('./package.json').version\")"
+        run: echo "tag=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
 
       - name: Configure git
         run: |
@@ -47,6 +47,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
         run: |
+          sudo apt-get update
           sudo apt-get install -y gh
           echo "${GITHUB_TOKEN}" | gh auth login --with-token
-          gh pr create --title "Release v${{ steps.get_version.outputs.tag }}" --body "Release automática da versão ${{ steps.get_version.outputs.tag }}" --base main --head $RELEASE_BRANCH --reviewer gustavomarques00 --assignee gustavomarques00
+          gh pr create --title "Release v${{ steps.get_version.outputs.tag }}" \
+                       --body "Release automática da versão v${{ steps.get_version.outputs.tag }}" \
+                       --base main --head $RELEASE_BRANCH \
+                       --reviewer gustavomarques00 \
+                       --assignee gustavomarques00
