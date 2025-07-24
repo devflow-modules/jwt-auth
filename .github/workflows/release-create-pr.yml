@@ -1,0 +1,60 @@
+name: Create Release Pull Request
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create_release_pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure git user for commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Run standard-version (bump version and changelog)
+        run: npx standard-version
+
+      - name: Get new version tag
+        id: get_version
+        run: |
+          echo "tag=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+
+      - name: Create release branch and push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git checkout -b release/v${{ steps.get_version.outputs.tag }}
+          git push origin release/v${{ steps.get_version.outputs.tag }}
+
+      - name: Create Pull Request via API
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "Content-Type: application/json" \
+            https://api.github.com/repos/${{ github.repository }}/pulls \
+            -d "{\"title\": \"Release v${{ steps.get_version.outputs.tag }}\", \
+                 \"head\": \"release/v${{ steps.get_version.outputs.tag }}\", \
+                 \"base\": \"main\", \
+                 \"body\": \"Release automática da versão v${{ steps.get_version.outputs.tag }}\", \
+                 \"reviewers\": [\"gustavomarques00\"], \
+                 \"assignees\": [\"gustavomarques00\"]}"

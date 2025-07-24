@@ -34,3 +34,5 @@ jobs:
           token: ${{ secrets.CODECOV_TOKE }}
           fail_ci_if_error: true
           verbose: true
+        env:
+          CODECOV_GPG_VERIFY: false
