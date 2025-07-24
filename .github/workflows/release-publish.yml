@@ -3,18 +3,18 @@ name: Release and Publish
 on:
   push:
     branches:
-      - main  # Executa apenas quando push for para a main
+      - main
 
 jobs:
   release:
-    name: Version bump, changelog, release & publish
+    name: Publish package to npm
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Necessário para tags e histórico completo
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
