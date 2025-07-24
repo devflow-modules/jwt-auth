@@ -26,7 +26,7 @@ jobs:
         run: npm ci                # Instala as dependências de forma limpa e rápida
 
       - name: 🚀 Run standard-version to bump version and generate changelog
-        run: npx standard-version  # Executa o standard-version para atualizar versão e gerar changelog
+        run: npx standard-version  # Atualiza a versão e gera changelog automaticamente
 
       - name: 🔥 Push changes and tags
         run: |

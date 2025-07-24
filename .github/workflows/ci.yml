@@ -29,7 +29,7 @@ jobs:
         run: npm run test:coverage
 
       - name: 📡 Upload coverage para Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true
           verbose: true
