@@ -23,17 +23,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Configure git user for commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Run standard-version (bump version and changelog)
         run: npx standard-version
 
       - name: Get new version tag
         id: get_version
         run: echo "tag=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
-
-      - name: Configure git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Create release branch and push
         env:
@@ -43,15 +43,22 @@ jobs:
           git checkout -b $RELEASE_BRANCH
           git push origin $RELEASE_BRANCH
 
-      - name: Create Pull Request
+      - name: Create Pull Request via API
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+          RELEASE_BRANCH: release/v${{ steps.get_version.outputs.tag }}
         run: |
-          sudo apt-get update
-          sudo apt-get install -y gh
-          echo "${GITHUB_TOKEN}" | gh auth login --with-token
-          gh pr create --title "Release v${{ steps.get_version.outputs.tag }}" \
-                       --body "Release automática da versão v${{ steps.get_version.outputs.tag }}" \
-                       --base main --head $RELEASE_BRANCH \
-                       --reviewer gustavomarques00 \
-                       --assignee gustavomarques00
+          curl -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/pulls \
+            -d @- <<EOF
+          {
+            "title": "Release v${{ steps.get_version.outputs.tag }}",
+            "head": "$RELEASE_BRANCH",
+            "base": "main",
+            "body": "Release automática da versão v${{ steps.get_version.outputs.tag }}",
+            "reviewers": ["gustavomarques00"],
+            "assignees": ["gustavomarques00"]
+          }
+          EOF
