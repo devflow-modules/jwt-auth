@@ -1,6 +1,6 @@
 {
   "name": "@devflow-modules/jwt-auth",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Autenticação JWT modular para Node.js com suporte a refresh token, cookies HTTP-only, bcrypt e middleware Express.",
   "main": "./src/index.js",
   "exports": {
