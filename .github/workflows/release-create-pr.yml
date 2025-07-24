@@ -34,7 +34,8 @@ jobs:
       - name: Get new version tag
         id: get_version
         run: |
-          echo "tag=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+          VERSION=$(node -p "require('./package.json').version")
+          echo "tag=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create release branch and push
         env:
