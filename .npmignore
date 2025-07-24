@@ -1,0 +1,8 @@
+tests/
+coverage/
+.github/
+*.test.*
+.env
+*.md
+.vscode/
+node_modules/

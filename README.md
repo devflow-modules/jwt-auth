@@ -207,18 +207,50 @@ src/
 │   └── env.cjs
 ├── index.js
 tests/
-├── jwt.test.cjs
-├── refreshToken.test.cjs
-├── password.test.cjs
-├── middleware.test.cjs
+├── cookies/
+│   └── cookies.test.cjs
+├── jwt/
+│   ├── jwt.test.cjs
+│   ├── jwtAlgorithm.test.cjs
+│   ├── refreshToken.test.cjs
+│   ├── signToken.errors.test.cjs
+│   └── verifyToken.errors.test.cjs
+├── middleware/
+│   ├── middleware.test.cjs
+│   └── protectRouteFromCookie.test.cjs
+├── password/
+│   └── password.test.cjs
+```
+
+---
+
+### 🍪 Uso com Cookies
+
+Você pode definir e extrair tokens via cookies para sessões seguras com HTTP-only:
+
+```js
+const { setTokenCookie, getTokenFromCookie } = require('@devflow-modules/jwt-auth');
+
+setTokenCookie(res, 'meu_token'); // Define cookie "jwt"
+const token = getTokenFromCookie(req); // Extrai token do cookie
+```
+
+Com middleware:
+
+```js
+const { protectRouteFromCookie } = require('@devflow-modules/jwt-auth');
+app.get('/private', protectRouteFromCookie, (req, res) => {
+  res.json({ user: req.user });
+});
+
 ```
 
 ---
 
 ## 📌 Roadmap
 
-- [ ] Suporte a múltiplos algoritmos JWT (HS512, RS256)
-- [ ] Suporte a cookies HTTP-only
+- [X] Suporte a múltiplos algoritmos JWT (HS512, RS256)
+- [X] Suporte a cookies HTTP-only
 - [ ] Middleware para roles e permissões
 - [ ] Changelog automatizado + GitHub Release
 - [ ] Exemplo completo com autenticação + refresh

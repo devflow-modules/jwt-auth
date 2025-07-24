@@ -4,29 +4,41 @@ const path = require('path');
 const {
   JWT_ALGORITHM = 'HS256',
   JWT_SECRET,
-  JWT_EXPIRES_IN,
+  JWT_EXPIRES_IN = '1h',
   JWT_PRIVATE_KEY_PATH,
 } = require('../utils/env');
 
 /**
- * Assina um token JWT com suporte a HS256, HS512 ou RS256.
+ * Gera um Access Token JWT com suporte a algoritmos simétricos (HS256/HS512)
+ * e assimétricos (RS256).
+ *
+ * @param {Object} payload - Objeto de dados a ser assinado no token.
+ * @param {Object} options - Opções extras do JWT (ex: audience, issuer).
+ * @returns {string} Token JWT assinado.
+ *
+ * @throws {Error} Se variáveis obrigatórias do algoritmo não estiverem definidas.
  */
 function signToken(payload, options = {}) {
   const algorithm = JWT_ALGORITHM;
   let key;
 
   if (algorithm.startsWith('RS')) {
-    // Algoritmo assimétrico (ex: RS256)
-    const privatePath = JWT_PRIVATE_KEY_PATH;
-    if (!privatePath) {
+    // Algoritmo assimétrico requer chave privada
+    if (!JWT_PRIVATE_KEY_PATH) {
       throw new Error('JWT_PRIVATE_KEY_PATH não definido para algoritmo RS256.');
     }
-    key = fs.readFileSync(path.resolve(privatePath), 'utf-8');
+
+    try {
+      key = fs.readFileSync(path.resolve(JWT_PRIVATE_KEY_PATH), 'utf-8');
+    } catch (err) {
+      throw new Error(`Erro ao ler JWT_PRIVATE_KEY_PATH: ${err.message}`);
+    }
   } else {
-    // Algoritmo simétrico (ex: HS256, HS512)
+    // Algoritmos simétricos requerem JWT_SECRET
     if (!JWT_SECRET) {
       throw new Error('JWT_SECRET não definido para algoritmos HS.');
     }
+
     key = JWT_SECRET;
   }
 
