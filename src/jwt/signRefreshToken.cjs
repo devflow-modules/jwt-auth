@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { JWT_REFRESH_SECRET, JWT_REFRESH_EXPIRES_IN } = require('../utils/env');
+const { JWT_REFRESH_SECRET, JWT_REFRESH_EXPIRES_IN } = require('../utils/env.cjs');
 
 /**
  * Gera um Refresh Token JWT.

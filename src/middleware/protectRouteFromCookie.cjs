@@ -1,5 +1,5 @@
-const { verifyToken } = require('../jwt/verifyToken');
-const { getTokenFromCookie } = require('../cookies/getTokenFromCookie');
+const { verifyToken } = require('../jwt/verifyToken.cjs');
+const { getTokenFromCookie } = require('../cookies/getTokenFromCookie.cjs');
 
 /**
  * Middleware para proteger rotas autenticadas usando token JWT em cookies.

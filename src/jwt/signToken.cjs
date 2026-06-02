@@ -6,7 +6,7 @@ const {
   JWT_SECRET,
   JWT_EXPIRES_IN = '1h',
   JWT_PRIVATE_KEY_PATH,
-} = require('../utils/env');
+} = require('../utils/env.cjs');
 
 /**
  * Gera um Access Token JWT com suporte a algoritmos simétricos (HS256/HS512)

@@ -3,33 +3,74 @@
 [![npm version](https://img.shields.io/npm/v/@devflow-modules/jwt-auth)](https://www.npmjs.com/package/@devflow-modules/jwt-auth)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-# 🔐 @devflow-modules/jwt-auth
+# @devflow-modules/jwt-auth
 
-Módulo de autenticação JWT seguro, modular e reutilizável para aplicações Node.js. Oferece suporte completo a:
+Reusable JWT authentication package for Node.js and Express applications.
 
-- ✅ **Access Token**
-- 🔁 **Refresh Token**
-- 🔑 **Hash e verificação de senhas**
-- 🛡️ **Middleware de proteção de rotas**
-- 🧪 **Testes com cobertura**
-- 🚫 **Zero dependência de banco de dados**
+This package provides access tokens, refresh tokens, password hashing, route protection and HttpOnly Cookie helpers without requiring a database dependency.
 
 ---
 
-## 📦 Requisitos
+## Recruiter Summary
+
+`@devflow-modules/jwt-auth` is a reusable authentication module created as part of the DevFlow Labs ecosystem.
+
+It demonstrates package-oriented engineering, authentication fundamentals, middleware design, test coverage, CI/CD awareness and reusable API design for Node.js applications.
+
+Best for evaluating:
+
+- JWT authentication fundamentals
+- Express middleware design
+- Password hashing with bcrypt
+- Refresh token flows
+- Cookie-based authentication helpers
+- Test coverage and package readiness
+
+---
+
+## Features
+
+- Access token generation and verification
+- Refresh token generation and verification
+- Password hashing and comparison
+- Express route protection middleware
+- HttpOnly Cookie helpers
+- Cookie-based protected route middleware
+- Multiple JWT algorithms: HS256, HS512 and RS256
+- No database dependency
+- Jest test coverage
+- CI, Codecov, npm and MIT license badges
+
+---
+
+## Runtime and Module Format
+
+This package currently ships as **CommonJS**.
+
+Use it with `require`:
+
+```js
+const { jwt, password, middleware, cookies } = require('@devflow-modules/jwt-auth');
+```
+
+Native ESM import/export compatibility is listed in the roadmap and should be treated as future work.
+
+---
+
+## Requirements
 
 - Node.js >= 16
 - npm >= 8
 
 ---
 
-## 🚀 Instalação
+## Installation
 
 ```bash
 npm install @devflow-modules/jwt-auth
 ```
 
-Para uso local com desenvolvimento:
+For local development:
 
 ```bash
 npm link
@@ -37,165 +78,165 @@ npm link
 
 ---
 
-## 📆 Variáveis de ambiente
+## Environment Variables
 
-Crie um arquivo `.env` com:
+Create a `.env` file with:
 
 ```env
-JWT_SECRET=chave_secreta_access_token
+JWT_SECRET=your_access_token_secret
 JWT_EXPIRES_IN=1h
-JWT_REFRESH_SECRET=chave_secreta_refresh_token
+JWT_REFRESH_SECRET=your_refresh_token_secret
 JWT_REFRESH_EXPIRES_IN=7d
 ```
 
----
-
-## 🔧 Suporte a múltiplos algoritmos JWT
-
-Este módulo suporta algoritmos simétricos (HS256, HS512) e assimétricos (RS256) para assinar/verificar tokens JWT.
-
-✅ Configuração via `.env`
+For algorithm configuration:
 
 ```env
-# Algoritmo padrão (HS256, HS512 ou RS256)
 JWT_ALGORITHM=HS256
+```
 
-# Para algoritmos HS256 / HS512
+For HS256 / HS512:
+
+```env
 JWT_SECRET=your_hmac_secret
+```
 
-# Para RS256 (criptografia com chave pública/privada)
+For RS256:
+
+```env
 JWT_PRIVATE_KEY_PATH=src/keys/private.key
 JWT_PUBLIC_KEY_PATH=src/keys/public.key
 ```
 
-🔐 Gerar chaves para RS256
-
-Se você optar por usar `RS256`, gere suas chaves com:
+Generate RS256 keys:
 
 ```bash
 openssl genrsa -out src/keys/private.key 2048
 openssl rsa -in src/keys/private.key -pubout -out src/keys/public.key
 ```
-💡 As chaves devem ser referenciadas corretamente nas variáveis `JWT_PRIVATE_KEY_PATH` e `JWT_PUBLIC_KEY_PATH`.
-
-✅ Exemplo de uso (sem alterações no código)
-
-A mesma API funciona com qualquer algoritmo:
-
-```js
-const { signToken, verifyToken } = require('@devflow-modules/jwt-auth');
-
-const token = signToken({ id: '123' });
-const decoded = verifyToken(token);
-```
----
-
-## ✅ Funcionalidades
-
-### 🔐 Geração e Verificação de Access Token
-
-```js
-// CommonJS
-const { signToken, verifyToken } = require('@devflow-modules/jwt-auth');
-
-// ESModules (futuro)
-import { signToken, verifyToken } from '@devflow-modules/jwt-auth';
-
-const token = signToken({ id: '123', role: 'admin' });
-const payload = verifyToken(token);
-// { id: '123', role: 'admin', iat, exp }
-```
 
 ---
 
-### 🔁 Geração e Verificação de Refresh Token
+## Public API Reference
 
-```js
-const { signRefreshToken, verifyRefreshToken } = require('@devflow-modules/jwt-auth');
+The package exports grouped namespaces from `src/index.js`.
 
-const refresh = signRefreshToken({ id: '123' });
-const payload = verifyRefreshToken(refresh);
-```
+| Namespace | Function | Description |
+|---|---|---|
+| `jwt` | `signToken(payload, options)` | Creates an access token. |
+| `jwt` | `verifyToken(token, options)` | Verifies an access token and returns the decoded payload. |
+| `jwt` | `signRefreshToken(payload, options)` | Creates a refresh token. |
+| `jwt` | `verifyRefreshToken(token)` | Verifies a refresh token and returns the decoded payload. |
+| `password` | `hashPassword(password)` | Hashes a plain-text password using bcrypt. |
+| `password` | `comparePassword(password, hash)` | Compares a plain-text password against a bcrypt hash. |
+| `middleware` | `protectRoute` | Express middleware for Bearer-token protected routes. |
+| `middleware` | `protectRouteFromCookie` | Express middleware for cookie-based protected routes. |
+| `cookies` | `setTokenCookie(res, token, options)` | Sets a JWT token cookie. |
+| `cookies` | `getTokenFromCookie(req, name)` | Reads a JWT token from cookies. |
+
+> Note: `protectWithRoles` exists in the source tree and has tests, but it is not part of the public namespace export shown above. Public export should be verified before documenting it as package-level API.
 
 ---
 
-### 🔑 Hash e Verificação de Senhas
+## Usage
+
+### Access Token
 
 ```js
-const { hashPassword, comparePassword } = require('@devflow-modules/jwt-auth');
+const { jwt } = require('@devflow-modules/jwt-auth');
 
-const hash = await hashPassword('minhasenha');
-const isValid = await comparePassword('minhasenha', hash); // true ou false
+const token = jwt.signToken({ id: '123', role: 'admin' });
+const payload = jwt.verifyToken(token);
+
+console.log(payload.id);
 ```
 
----
+### Refresh Token
 
-### 🛡️ Middleware: `protectRoute` (Express)
+```js
+const { jwt } = require('@devflow-modules/jwt-auth');
 
-Protege rotas de acesso não autenticado.
+const refresh = jwt.signRefreshToken({ id: '123' });
+const payload = jwt.verifyRefreshToken(refresh);
+
+console.log(payload.id);
+```
+
+### Password Hashing
+
+```js
+const { password } = require('@devflow-modules/jwt-auth');
+
+const hash = await password.hashPassword('my-password');
+const isValid = await password.comparePassword('my-password', hash);
+```
+
+### Express Protected Route
 
 ```js
 const express = require('express');
-const { protectRoute } = require('@devflow-modules/jwt-auth');
+const { middleware } = require('@devflow-modules/jwt-auth');
 
 const app = express();
 
-app.get('/private', protectRoute, (req, res) => {
+app.get('/private', middleware.protectRoute, (req, res) => {
   res.json({ user: req.user });
 });
 ```
 
-### 🛡️ Middleware: `protectWithRoles` (Express)
-
-Protege rotas com base em roles (funções/permissões) do usuário autenticado.
+### Cookie Helpers
 
 ```js
 const express = require('express');
-const { protectWithRoles } = require('@devflow-modules/jwt-auth');
-
-const app = express();
-
-// Permite acesso apenas para usuários com role 'admin' ou 'editor'
-app.get('/admin', protectWithRoles(['admin', 'editor']), (req, res) => {
-  res.json({ message: 'Acesso permitido para administradores e editores.' });
-});
-
-// Permite acesso apenas para usuários com role 'user'
-app.get('/profile', protectWithRoles(['user']), (req, res) => {
-  res.json({ message: 'Acesso permitido para usuários.' });
-});
-```
----
-
-### 💻 Exemplo completo (Express)
-
-```js
-require('dotenv').config();
-const express = require('express');
-const { signToken, signRefreshToken, protectRoute } = require('@devflow-modules/jwt-auth');
+const cookieParser = require('cookie-parser');
+const { jwt, cookies, middleware } = require('@devflow-modules/jwt-auth');
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
-// login (gera access e refresh token)
 app.post('/login', (req, res) => {
-  const token = signToken({ id: 'user123' });
-  const refresh = signRefreshToken({ id: 'user123' });
-  res.json({ token, refresh });
+  const token = jwt.signToken({ id: 'user-123' });
+  cookies.setTokenCookie(res, token);
+  res.json({ ok: true });
 });
 
-app.get('/private', protectRoute, (req, res) => {
+app.get('/private', middleware.protectRouteFromCookie, (req, res) => {
   res.json({ user: req.user });
 });
-
-app.listen(3000, () => console.log('API rodando em http://localhost:3000'));
 ```
 
 ---
 
-## 🧪 Testes
+## Complete Express Refresh Example
 
-Execute os testes com cobertura:
+A complete refresh-auth example is available at:
+
+```text
+examples/express-refresh-auth/server.cjs
+```
+
+It demonstrates:
+
+- User login
+- Password hashing and comparison
+- Access token creation
+- Refresh token creation
+- Refresh endpoint
+- Protected Bearer-token route
+- Protected cookie-based route
+
+---
+
+## Testing
+
+Run tests:
+
+```bash
+npm test
+```
+
+Run tests with coverage:
 
 ```bash
 npm run test:coverage
@@ -203,15 +244,15 @@ npm run test:coverage
 
 ---
 
-## 💡 Pré-push protegido com Husky
+## Pre-Push Protection
 
-Este repositório usa [Husky](https://typicode.github.io/husky) para impedir `git push` com testes quebrados ou cobertura insuficiente.
+This repository uses Husky to help prevent broken pushes when tests or quality checks fail.
 
 ---
 
-## 🧱 Estrutura
+## Project Structure
 
-```
+```text
 src/
 ├── jwt/
 │   ├── signToken.cjs
@@ -223,8 +264,11 @@ src/
 │   └── comparePassword.cjs
 ├── middleware/
 │   ├── protectRoute.cjs
-│   └── protectWithRoles.cjs      # Novo middleware adicionado
+│   ├── protectWithRoles.cjs
 │   └── protectRouteFromCookie.cjs
+├── cookies/
+│   ├── setTokenCookie.cjs
+│   └── getTokenFromCookie.cjs
 ├── utils/
 │   └── env.cjs
 ├── index.js
@@ -239,51 +283,40 @@ tests/
 │   └── verifyToken.errors.test.cjs
 ├── middleware/
 │   ├── middleware.test.cjs
-│   ├── protectWithRoles.test.cjs   # Testes do middleware de roles
+│   ├── protectWithRoles.test.cjs
 │   └── protectRouteFromCookie.test.cjs
 ├── password/
 │   └── password.test.cjs
+examples/
+└── express-refresh-auth/
+    └── server.cjs
 ```
 
 ---
 
-### 🍪 Uso com Cookies
+## Roadmap
 
-Você pode definir e extrair tokens via cookies para sessões seguras com HTTP-only:
-
-```js
-const { setTokenCookie, getTokenFromCookie } = require('@devflow-modules/jwt-auth');
-
-setTokenCookie(res, 'meu_token'); // Define cookie "jwt"
-const token = getTokenFromCookie(req); // Extrai token do cookie
-```
-
-Com middleware:
-
-```js
-const { protectRouteFromCookie } = require('@devflow-modules/jwt-auth');
-app.get('/private', protectRouteFromCookie, (req, res) => {
-  res.json({ user: req.user });
-});
-
-```
+- [x] Support multiple JWT algorithms: HS512 and RS256
+- [x] Support HttpOnly Cookies
+- [x] Add role and permission middleware in source/tests
+- [x] Add automated changelog and GitHub Release workflow
+- [x] Add complete Express authentication + refresh example
+- [ ] Verify/export role middleware from package public API
+- [ ] Add optional middleware for public routes
+- [ ] Add native ESM import/export compatibility
+- [ ] Add token blacklist/session invalidation support
+- [ ] Add social login integration examples
 
 ---
 
-## 📌 Roadmap
+## Portfolio Value
 
-- [X] Suporte a múltiplos algoritmos JWT (HS512, RS256)
-- [X] Suporte a cookies HTTP-only
-- [X] Middleware para roles e permissões
-- [X] Changelog automatizado + GitHub Release
-- [ ] Exemplo completo com autenticação + refresh
-- [ ] Middleware opcional para rotas públicas
-- [ ] Compatibilidade com ESM (import/export)
-- [ ] Suporte a sessão baseada em token com blacklist
-- [ ] Integração com login social (Google, GitHub)
+This package shows the ability to extract a common authentication concern into a reusable module with documentation, tests, CI, package metadata and a clear API surface.
+
+It is especially relevant for SaaS/backend projects that need JWT-based authentication without coupling the auth helpers to a specific database.
 
 ---
 
-## ⚖️ Licença
+## License
 
 MIT © [devflow-modules](https://github.com/devflow-modules)

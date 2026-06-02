@@ -5,7 +5,7 @@ const {
   JWT_ALGORITHM = 'HS256',
   JWT_SECRET,
   JWT_PUBLIC_KEY_PATH,
-} = require('../utils/env');
+} = require('../utils/env.cjs');
 
 /**
  * Verifica e decodifica um token JWT com suporte a algoritmos simétricos e assimétricos.

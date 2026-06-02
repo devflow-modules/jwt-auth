@@ -1,4 +1,4 @@
-const { verifyToken } = require('../jwt/verifyToken');
+const { verifyToken } = require('../jwt/verifyToken.cjs');
 
 /**
  * Middleware para proteger rotas autenticadas.
