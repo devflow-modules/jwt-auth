@@ -1,27 +1,31 @@
-// JWT: Funções para geração e verificação de access/refresh tokens
-const { signToken } = require('./jwt/signToken');
-const { verifyToken } = require('./jwt/verifyToken');
-const { signRefreshToken } = require('./jwt/signRefreshToken');
-const { verifyRefreshToken } = require('./jwt/verifyRefreshToken');
+// JWT: access/refresh token helpers
+const { signToken } = require('./jwt/signToken.cjs');
+const { verifyToken } = require('./jwt/verifyToken.cjs');
+const { signRefreshToken } = require('./jwt/signRefreshToken.cjs');
+const { verifyRefreshToken } = require('./jwt/verifyRefreshToken.cjs');
 
-// Senhas: Hash e comparação de senhas com bcrypt
-const { hashPassword } = require('./password/hashPassword');
-const { comparePassword } = require('./password/comparePassword');
+// Password helpers
+const { hashPassword } = require('./password/hashPassword.cjs');
+const { comparePassword } = require('./password/comparePassword.cjs');
 
-// Middlewares: Proteção de rotas com verificação de token (Header ou Cookie)
-const { protectRoute } = require('./middleware/protectRoute');
-const { protectRouteFromCookie } = require('./middleware/protectRouteFromCookie');
+// Express middlewares
+const { protectRoute } = require('./middleware/protectRoute.cjs');
+const { protectRouteFromCookie } = require('./middleware/protectRouteFromCookie.cjs');
+const { protectWithRoles } = require('./middleware/protectWithRoles.cjs');
 
-// Cookies: Utilitários para manipulação de token via cookies HTTP-only
-const { setTokenCookie } = require('./cookies/setTokenCookie');
-const { getTokenFromCookie } = require('./cookies/getTokenFromCookie');
+// Cookie helpers
+const { setTokenCookie } = require('./cookies/setTokenCookie.cjs');
+const { getTokenFromCookie } = require('./cookies/getTokenFromCookie.cjs');
 
 /**
- * Exporta as funcionalidades organizadas em namespaces.
- * Isso permite importar apenas o necessário com clareza:
+ * Public package API grouped by namespace.
  *
- *   const { jwt, password, middleware } = require('@devflow-modules/jwt-auth');
- *   jwt.signToken(...), password.hashPassword(...), middleware.protectRoute(...)
+ * Example:
+ *
+ * const { jwt, password, middleware, cookies } = require('@devflow-modules/jwt-auth');
+ * jwt.signToken(...)
+ * password.hashPassword(...)
+ * middleware.protectRoute(...)
  */
 
 module.exports = {
@@ -38,6 +42,7 @@ module.exports = {
   middleware: {
     protectRoute,
     protectRouteFromCookie,
+    protectWithRoles,
   },
   cookies: {
     setTokenCookie,
