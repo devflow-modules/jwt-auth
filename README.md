@@ -7,7 +7,7 @@
 
 Reusable JWT authentication package for Node.js and Express applications.
 
-This package provides access tokens, refresh tokens, password hashing, route protection and HttpOnly Cookie helpers without requiring a database dependency.
+This package provides access tokens, refresh tokens, password hashing, route protection, role-based authorization and HttpOnly Cookie helpers without requiring a database dependency.
 
 ---
 
@@ -23,6 +23,7 @@ Best for evaluating:
 - Express middleware design
 - Password hashing with bcrypt
 - Refresh token flows
+- Role-based authorization middleware
 - Cookie-based authentication helpers
 - Test coverage and package readiness
 
@@ -34,6 +35,7 @@ Best for evaluating:
 - Refresh token generation and verification
 - Password hashing and comparison
 - Express route protection middleware
+- Role-based authorization middleware
 - HttpOnly Cookie helpers
 - Cookie-based protected route middleware
 - Multiple JWT algorithms: HS256, HS512 and RS256
@@ -131,10 +133,9 @@ The package exports grouped namespaces from `src/index.js`.
 | `password` | `comparePassword(password, hash)` | Compares a plain-text password against a bcrypt hash. |
 | `middleware` | `protectRoute` | Express middleware for Bearer-token protected routes. |
 | `middleware` | `protectRouteFromCookie` | Express middleware for cookie-based protected routes. |
+| `middleware` | `protectWithRoles(roles)` | Express middleware factory for role-based authorization. |
 | `cookies` | `setTokenCookie(res, token, options)` | Sets a JWT token cookie. |
 | `cookies` | `getTokenFromCookie(req, name)` | Reads a JWT token from cookies. |
-
-> Note: `protectWithRoles` exists in the source tree and has tests, but it is not part of the public namespace export shown above. Public export should be verified before documenting it as package-level API.
 
 ---
 
@@ -181,6 +182,19 @@ const app = express();
 
 app.get('/private', middleware.protectRoute, (req, res) => {
   res.json({ user: req.user });
+});
+```
+
+### Role-Based Route
+
+```js
+const express = require('express');
+const { middleware } = require('@devflow-modules/jwt-auth');
+
+const app = express();
+
+app.get('/admin', middleware.protectWithRoles(['admin']), (req, res) => {
+  res.json({ message: 'Admin access granted.' });
 });
 ```
 
@@ -298,10 +312,9 @@ examples/
 
 - [x] Support multiple JWT algorithms: HS512 and RS256
 - [x] Support HttpOnly Cookies
-- [x] Add role and permission middleware in source/tests
+- [x] Add and export role-based authorization middleware
 - [x] Add automated changelog and GitHub Release workflow
 - [x] Add complete Express authentication + refresh example
-- [ ] Verify/export role middleware from package public API
 - [ ] Add optional middleware for public routes
 - [ ] Add native ESM import/export compatibility
 - [ ] Add token blacklist/session invalidation support
